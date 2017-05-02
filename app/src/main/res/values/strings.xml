@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">Logi</string>
+
+    <string name="facebook_app_id">1040304672781233</string>
+
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="password_length">Introduce de 6 a 10 caracteres alfanuméricos</string>
+    <string name="email_valid">Introduce una dirección de correo electrónico válida</string>
+    <string name="password_matches">Las contraseñas no coinciden</string>
+    <string name="login_failed">Inicio de sesión fallido</string>
+    <string name="signup_failed">Registro fallido</string>
+    <string name="signup_createAccount">Creando cuenta...</string>
+    <string name="login_authentication">Autenticando...</string>
 </resources>
