@@ -14,4 +14,7 @@
     <string name="signup_failed">Registro fallido</string>
     <string name="signup_createAccount">Creando cuenta...</string>
     <string name="login_authentication">Autenticando...</string>
+    <string name="login_succesful">Inicio de sesión exitoso</string>
+    <string name="logging_out">Cerrando sesión...</string>
+    <string name="about">Acerca de</string>
 </resources>

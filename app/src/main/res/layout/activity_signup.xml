@@ -72,7 +72,8 @@
             android:layout_marginBottom="24dp"
             android:layout_marginTop="24dp"
             android:padding="12dp"
-            android:drawableLeft="@drawable/ic_account_circle_black_24dp"
+            android:drawableLeft="@drawable/ic_group_add_black_24dp"
+            android:drawableTint="@color/accent"
             android:text="Crear cuenta" />
 
         <TextView
@@ -81,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="Iniciar sesión con cuenta existente"
+            android:text="Iniciar sesión"
             android:textSize="16dip" />
 
     </LinearLayout>

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -17,12 +18,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class EvaluationsActivity extends AppCompatActivity {
-    private static final String TAG = "EvalautionsActivity";
+    private static final String TAG = "EvaluationsActivity";
 
     private ListView lvList;
 
     private DatabaseReference databaseReference;
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseUser user;
     private String userID = "";
 
     @Override
@@ -32,6 +33,7 @@ public class EvaluationsActivity extends AppCompatActivity {
 
         lvList = (ListView) findViewById(R.id.lvList);
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
         userID = user.getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -68,6 +70,7 @@ public class EvaluationsActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
 
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 Toast.makeText(getBaseContext(), prop, Toast.LENGTH_SHORT).show();
             }
         });

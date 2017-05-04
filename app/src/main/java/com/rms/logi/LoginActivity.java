@@ -55,31 +55,17 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        ButterKnife.bind(this);
+
         // Facebook
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
-
-        //Get Firebase auth instance
-        mAuth = FirebaseAuth.getInstance();
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
 
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
+
         LoginButton loginButton = (LoginButton) findViewById(R.id.btnFacebook);
         loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
@@ -99,6 +85,23 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "facebook:onError", error);
             }
         });
+
+        //Get Firebase auth instance
+        mAuth = FirebaseAuth.getInstance();
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
 
@@ -131,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
+        Log.d(TAG, "User ID: " + token.getUserId() + "\n" + "Auth Token: " + token.getToken());
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Dark_Dialog);
 
@@ -155,6 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                                     }, 1000);
                         } else {
                             Log.d(TAG, "signInWithCredential:success");
+
                             new android.os.Handler().postDelayed(
                                     new Runnable() {
                                         public void run() {
@@ -236,6 +241,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 //    @Override
+//    public void onBackPressed() {
+//        // Disable going back to the MainActivity
+//        moveTaskToBack(true);
+//    }
+
+//    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        if (requestCode == REQUEST_SIGNUP) {
 //            if (resultCode == RESULT_OK) {
@@ -247,14 +258,9 @@ public class LoginActivity extends AppCompatActivity {
 //        }
 //    }
 
-//    @Override
-//    public void onBackPressed() {
-//        // Disable going back to the MainActivity
-//        moveTaskToBack(true);
-//    }
-
     public void onLoginSuccess() {
         btnLogin.setEnabled(true);
+        Toast.makeText(LoginActivity.this, R.string.login_succesful, Toast.LENGTH_SHORT).show();
 
         finish();
     }

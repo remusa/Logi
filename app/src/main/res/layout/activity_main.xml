@@ -10,29 +10,28 @@
         android:id="@+id/btnNewEvaluation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="117dp"
-        style="@style/Base.Widget.AppCompat.Button.Colored"
-        android:text="Nueva proposición"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="117dp"
+        android:text="Nueva proposición" />
 
     <Button
         android:id="@+id/btnOpen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Abrir proposición"
         android:layout_below="@+id/btnNewEvaluation"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="39dp"
-        android:text="Abrir proposición" />
+        android:layout_alignStart="@+id/btnLogout"
+        android:layout_marginTop="27dp" />
 
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="106dp"
+        android:drawableLeft="@drawable/ic_enhanced_encryption_black_24dp"
+        android:drawableTint="@color/accent"
         android:text="Cerrar sesión"
-        android:layout_marginBottom="111dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:drawableRight="@drawable/ic_enhanced_encryption_black_24dp"
-        style="?android:attr/borderlessButtonStyle"/>
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

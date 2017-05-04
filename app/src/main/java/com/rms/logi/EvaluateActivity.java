@@ -39,8 +39,9 @@ public class EvaluateActivity extends AppCompatActivity {
     private TableLayout tbTable;
     private Adapter adapter;
 
+    private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseUser user;
     private String userID = "";
 
     private String proposition = "";
@@ -49,6 +50,7 @@ public class EvaluateActivity extends AppCompatActivity {
     private int noColumns = 0;
     private int noRows = 0;
     private static ArrayList<ArrayList> finalVector;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +65,12 @@ public class EvaluateActivity extends AppCompatActivity {
 //        tbTable = (TableLayout) findViewById(R.id.tbTable);
         lvList = (ListView) findViewById(R.id.lvList);
         ArrayAdapter<String> adapter;
+        final ProgressDialog progressDialog = new ProgressDialog(EvaluateActivity.this, R.style.AppTheme_Dark_Dialog);
 
+        mAuth = FirebaseAuth.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
         userID = user.getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference();
-
-        final ProgressDialog progressDialog = new ProgressDialog(EvaluateActivity.this,
-                R.style.AppTheme_Dark_Dialog);
 
         Intent intent = getIntent();
         if (intent.getSerializableExtra("proposition") != null) {
