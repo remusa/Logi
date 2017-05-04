@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
@@ -27,6 +28,7 @@ import static com.rms.model.Principal.mostrarTablasVariables;
 import static com.rms.model.Principal.postfijo;
 
 public class EvaluateActivity extends AppCompatActivity {
+    private static final String TAG = "EvaluateActivity";
 
     private EditText etProposition;
     private EditText etType;
@@ -67,6 +69,13 @@ public class EvaluateActivity extends AppCompatActivity {
 
         final ProgressDialog progressDialog = new ProgressDialog(EvaluateActivity.this,
                 R.style.AppTheme_Dark_Dialog);
+
+        Intent intent = getIntent();
+        if (intent.getSerializableExtra("proposition") != null) {
+            String prop = (String) intent.getSerializableExtra("proposition");
+            etProposition.setText(prop);
+            Log.d(TAG, "proposition received:" + prop);
+        }
 
         btnEvaluate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,10 +198,10 @@ public class EvaluateActivity extends AppCompatActivity {
         if (!etProposition.getText().toString().equals("")) {
             proposition = etProposition.getText().toString();
 
-            DatabaseReference postsRef = databaseReference.child("propositions").child(userID);
-            DatabaseReference newPostRef = postsRef.push();
+            DatabaseReference ref = databaseReference.child("propositions").child(userID);
+            DatabaseReference newRef = ref.push();
             Proposition prop = new Proposition(userID, proposition);
-            newPostRef.setValue(prop.getProposition());
+            newRef.setValue(prop.getProposition());
         }
     }
 }

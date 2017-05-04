@@ -3,6 +3,8 @@
 
     <string name="facebook_app_id">1040304672781233</string>
 
+    <string name="fb_login_protocol_scheme">fb1040304672781233</string>
+
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
     <string name="password_length">Introduce de 6 a 10 caracteres alfanuméricos</string>

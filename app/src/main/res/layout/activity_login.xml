@@ -55,7 +55,8 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:padding="12dp"
-            android:text="Iniciar sesión" />
+            android:text="Iniciar sesión"
+            android:drawableLeft="@drawable/ic_account_circle_black_24dp" />
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/btnFacebook"

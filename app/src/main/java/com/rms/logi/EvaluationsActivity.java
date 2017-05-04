@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class EvaluationsActivity extends AppCompatActivity {
+    private static final String TAG = "EvalautionsActivity";
 
     private ListView lvList;
 
@@ -59,8 +60,15 @@ public class EvaluationsActivity extends AppCompatActivity {
 
         lvList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object prop = lvList.getItemAtPosition(position);
-                Toast.makeText(getBaseContext(), prop.toString(), Toast.LENGTH_SHORT).show();
+                Object obj = lvList.getItemAtPosition(position);
+                String prop = obj.toString();
+
+                Intent intent = new Intent(getApplicationContext(), EvaluateActivity.class);
+                intent.putExtra("proposition", prop);
+                startActivity(intent);
+                finish();
+
+                Toast.makeText(getBaseContext(), prop, Toast.LENGTH_SHORT).show();
             }
         });
     }

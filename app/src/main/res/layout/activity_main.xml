@@ -10,10 +10,11 @@
         android:id="@+id/btnNewEvaluation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="117dp"
-        android:text="Nueva proposición" />
+        style="@style/Base.Widget.AppCompat.Button.Colored"
+        android:text="Nueva proposición"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/btnOpen"
@@ -31,5 +32,7 @@
         android:text="Cerrar sesión"
         android:layout_marginBottom="111dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:drawableRight="@drawable/ic_enhanced_encryption_black_24dp"
+        style="?android:attr/borderlessButtonStyle"/>
 </RelativeLayout>
