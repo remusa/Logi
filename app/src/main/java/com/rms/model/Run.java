@@ -11,7 +11,7 @@ import static com.rms.model.Principal.mostrarTablasVariables;
 public class Run {
 
     public static void main(String[] args) throws IOException {
-        String proposicion = "(PvQ)^R";
+        String proposicion = "PvQ";
         //Tablas
         mostrarTablasVariables(proposicion);
         //Evaluación

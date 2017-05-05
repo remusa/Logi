@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.Toast;
@@ -147,30 +149,47 @@ public class EvaluateActivity extends AppCompatActivity {
                 System.out.println("NOFILAS: " + noRows);
                 System.out.println("VECTOR FINAL: " + finalVector.toString());
 
+                String postfix = postfijo(proposition);
                 ArrayList<String> temp = new ArrayList<String>();
                 String str = "";
-                for (ArrayList aux : finalVector
-                        ) {
-                    str += aux.toString();
+                String separation = "\t\t\t";
+                for (int i = 0; i < postfix.length(); i++) {
+                    str += postfix.charAt(i) + separation;
+                }
+                temp.add(str);
+                String[][] matrix = new String[noColumns][noRows];
+                for (int i = 0; i < noColumns; i++) {
+                    for (int j = 0; j < noRows; j++) {
+                        matrix[i][j] = finalVector.get(i).get(j).toString();
+                    }
+                }
+                for (int i = 0; i < matrix[0].length; i++) {
+                    str = "";
+                    for (int j = 0; j < matrix.length; j++) {
+                        str += matrix[j][i] + separation;
+                        System.out.print(matrix[j][i] + " ");
+                    }
                     temp.add(str);
                 }
-                System.out.println("TEST: " + str);
-
                 System.out.println("LISTA: " + temp);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(),
-                        android.R.layout.simple_list_item_1, temp);
+
+
+//                for (ArrayList aux : finalVector) {
+//                    str = aux.toString();
+//                    System.out.println("TEST: " + str);
+//                    temp.add(str);
+//                }
+
+//                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.textcenter, R.id.textItem, temp);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), R.layout.textcenter, temp);
+//                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, temp);
+
                 System.out.println(adapter.toString());
                 lvList.setAdapter(adapter);
 
-//                        for (int i = 0; i < noColumns; i++) {
-//
-//                        }
-
-//                        for (int i = 0; i < finalVector.get(i).size(); i++) {
-//                            for (int j = 0; j < finalVector.size(); j++) {
-////                                TableRow fila = new TableRow(finalVector.get(i).get(j));
-//                            }
-//                        }
+                final LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) lvList.getLayoutParams();
+                params.gravity = Gravity.CENTER_VERTICAL;
+                lvList.setLayoutParams(params);
 
             } catch (IOException e) {
                 System.out.println("ERROR EVALUACIÓN: " + e.getMessage());
