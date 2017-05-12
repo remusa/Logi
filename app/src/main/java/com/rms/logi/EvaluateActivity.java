@@ -1,5 +1,6 @@
 package com.rms.logi;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import static com.rms.model.Principal.mostrarTablasVariables;
 import static com.rms.model.Principal.postfijo;
 
-public class EvaluateActivity extends AppCompatActivity {
+public class EvaluateActivity extends Activity {
     private static final String TAG = "EvaluateActivity";
 
     private EditText etProposition;
@@ -57,6 +58,7 @@ public class EvaluateActivity extends AppCompatActivity {
     private int noRows = 0;
     private static ArrayList<ArrayList> finalVector;
 
+    private CustomKeyboard mCustomKeyboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +73,15 @@ public class EvaluateActivity extends AppCompatActivity {
 //        tbTable = (TableLayout) findViewById(R.id.tbTable);
         lvList = (ListView) findViewById(R.id.lvList);
         ArrayAdapter<String> adapter;
+
+        //Keyboard
+        mCustomKeyboard = new CustomKeyboard(this, R.id.vwKeyboard, R.xml.keyboard);
+        mCustomKeyboard.registerEditText(R.id.etProposition);
+
+        //Dialog
         final ProgressDialog progressDialog = new ProgressDialog(EvaluateActivity.this, R.style.AppTheme_Dark_Dialog);
 
+        //Firebase
         mAuth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         userID = user.getUid();
@@ -88,6 +97,8 @@ public class EvaluateActivity extends AppCompatActivity {
         btnEvaluate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mCustomKeyboard.hideCustomKeyboard();
+
                 progressDialog.setIndeterminate(true);
                 progressDialog.setMessage("Evaluando...");
                 progressDialog.show();
@@ -106,6 +117,8 @@ public class EvaluateActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mCustomKeyboard.hideCustomKeyboard();
+
                 progressDialog.setIndeterminate(true);
                 progressDialog.setMessage("Guardando...");
                 progressDialog.show();
@@ -124,9 +137,16 @@ public class EvaluateActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        finish();
-//        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        // NOTE Trap the back key: when the CustomKeyboard is still visible hide it, only when it is invisible, finish activity
+        if (mCustomKeyboard.isCustomKeyboardVisible()) {
+            mCustomKeyboard.hideCustomKeyboard();
+        } else {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
+//            this.finish();
+            //        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
+
     }
 
     private void evaluate() {
@@ -270,7 +290,6 @@ public class EvaluateActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(getApplicationContext(), R.string.proposition_incorrect, Toast.LENGTH_SHORT).show();
             }
-
 
 //            DatabaseReference ref = databaseReference.child("propositions").child(userID);
 //            DatabaseReference newRef = ref.push();

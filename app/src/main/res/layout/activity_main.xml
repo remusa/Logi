@@ -34,4 +34,5 @@
         android:text="@string/btn_logout"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

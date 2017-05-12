@@ -47,8 +47,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "user " + user.getUid());
         }
 
-        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this, R.style.AppTheme_Dark_Dialog);
 
         btnNewEvaluation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,12 +104,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        if(menu instanceof MenuBuilder){
+        if (menu instanceof MenuBuilder) {
             MenuBuilder m = (MenuBuilder) menu;
             m.setOptionalIconsVisible(true);
         }
-
         return true;
     }
 
@@ -120,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -129,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
             AboutActivity.Show(this);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

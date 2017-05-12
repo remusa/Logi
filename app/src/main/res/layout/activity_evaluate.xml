@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Proposición"
-                android:inputType="textPersonName" />
+                android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -41,7 +41,7 @@
                 android:ems="10"
                 android:enabled="false"
                 android:hint="Tipo"
-                android:inputType="textPersonName" />
+                android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -57,7 +57,7 @@
                 android:ems="10"
                 android:enabled="false"
                 android:hint="Postfijo"
-                android:inputType="textPersonName" />
+                android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
@@ -95,14 +95,24 @@
             android:id="@+id/lvList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:padding="12dp"
             android:gravity="center"
-            android:layout_gravity="center_horizontal"/>
+            android:padding="12dp" />
         <!--</LinearLayout>-->
         <!--</ScrollView>-->
 
     </LinearLayout>
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/vwKeyboard"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone" />
 
 </RelativeLayout>
