@@ -18,8 +18,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.rms.model.Evaluacion;
 import com.rms.model.Proposition;
 import com.rms.model.Validations;
@@ -130,52 +133,54 @@ public class EvaluateActivity extends AppCompatActivity {
         if (!etProposition.getText().toString().equals("")) {
             proposition = etProposition.getText().toString();
 
-            Validations validate = new Validations();
+            Validations val = new Validations(proposition);
+            boolean validate = val.validateProposition();
+            boolean balanced = val.validateParenthesis();
 
-
-            //Tablas
-            try {
-                mostrarTablasVariables(proposition);
-            } catch (Exception e) {
-                System.out.println("ERROR TABLA: " + e.getMessage());
-            }
-
-            //Evaluación
-            try {
-                Evaluacion.evaluacionIniciar(proposition);
-                Evaluacion.evaluacionIniciar(proposition);
-                finalVector = Evaluacion.arrayTabla;
-
-                noColumns = finalVector.size();
-                noRows = finalVector.get(0).size();
-
-                System.out.println("NOCOLUMNAS: " + noColumns);
-                System.out.println("NOFILAS: " + noRows);
-                System.out.println("VECTOR FINAL: " + finalVector.toString());
-
-                String postfix = postfijo(proposition);
-                ArrayList<String> temp = new ArrayList<String>();
-                String str = "";
-                String separation = "\t\t\t";
-                for (int i = 0; i < postfix.length(); i++) {
-                    str += postfix.charAt(i) + separation;
+            if (validate && balanced) {
+                //Tablas
+                try {
+                    mostrarTablasVariables(proposition);
+                } catch (Exception e) {
+                    System.out.println("ERROR TABLA: " + e.getMessage());
                 }
-                temp.add(str);
-                String[][] matrix = new String[noColumns][noRows];
-                for (int i = 0; i < noColumns; i++) {
-                    for (int j = 0; j < noRows; j++) {
-                        matrix[i][j] = finalVector.get(i).get(j).toString();
-                    }
-                }
-                for (int i = 0; i < matrix[0].length; i++) {
-                    str = "";
-                    for (int j = 0; j < matrix.length; j++) {
-                        str += matrix[j][i] + separation;
-                        System.out.print(matrix[j][i] + " ");
+
+                //Evaluación
+                try {
+                    Evaluacion.evaluacionIniciar(proposition);
+                    Evaluacion.evaluacionIniciar(proposition);
+                    finalVector = Evaluacion.arrayTabla;
+
+                    noColumns = finalVector.size();
+                    noRows = finalVector.get(0).size();
+
+                    System.out.println("NOCOLUMNAS: " + noColumns);
+                    System.out.println("NOFILAS: " + noRows);
+                    System.out.println("VECTOR FINAL: " + finalVector.toString());
+
+                    String postfix = postfijo(proposition);
+                    ArrayList<String> temp = new ArrayList<String>();
+                    String str = "";
+                    String separation = "\t\t\t";
+                    for (int i = 0; i < postfix.length(); i++) {
+                        str += postfix.charAt(i) + separation;
                     }
                     temp.add(str);
-                }
-                System.out.println("LISTA: " + temp);
+                    String[][] matrix = new String[noColumns][noRows];
+                    for (int i = 0; i < noColumns; i++) {
+                        for (int j = 0; j < noRows; j++) {
+                            matrix[i][j] = finalVector.get(i).get(j).toString();
+                        }
+                    }
+                    for (int i = 0; i < matrix[0].length; i++) {
+                        str = "";
+                        for (int j = 0; j < matrix.length; j++) {
+                            str += matrix[j][i] + separation;
+                            System.out.print(matrix[j][i] + " ");
+                        }
+                        temp.add(str);
+                    }
+                    System.out.println("LISTA: " + temp);
 
 
 //                for (ArrayList aux : finalVector) {
@@ -185,37 +190,45 @@ public class EvaluateActivity extends AppCompatActivity {
 //                }
 
 //                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.textcenter, R.id.textItem, temp);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), R.layout.textcenter, temp);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), R.layout.textcenter, temp);
 //                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, temp);
 
-                System.out.println(adapter.toString());
-                lvList.setAdapter(adapter);
+                    System.out.println(adapter.toString());
+                    lvList.setAdapter(adapter);
 
-                final LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) lvList.getLayoutParams();
-                params.gravity = Gravity.CENTER_VERTICAL;
-                lvList.setLayoutParams(params);
+                    final LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) lvList.getLayoutParams();
+                    params.gravity = Gravity.CENTER_VERTICAL;
+                    lvList.setLayoutParams(params);
 
-            } catch (IOException e) {
-                System.out.println("ERROR EVALUACIÓN: " + e.getMessage());
+                } catch (IOException e) {
+                    System.out.println("ERROR EVALUACIÓN: " + e.getMessage());
+                }
+                //Tipo de evaluación
+                try {
+                    type = Evaluacion.evaluacionTipo();
+                    etType.setText(type);
+                    System.out.println("TIPO: " + type);
+                } catch (Exception e) {
+                    System.out.println("ERROR TIPO: " + e.getMessage());
+                }
+                //Postfijo
+                try {
+                    postfix = postfijo(proposition);
+                    etPostfix.setText(postfix);
+                    System.out.println("POSTFIJO: " + postfix);
+                } catch (IOException e) {
+                    System.out.println("ERROR POSTFIJO: " + e.getMessage());
+                }
+            } else if (!validate) {
+                Toast.makeText(getApplicationContext(), R.string.proposition_invalid, Toast.LENGTH_SHORT).show();
+            } else if (!balanced) {
+                Toast.makeText(getApplicationContext(), R.string.proposition_unbalanced, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.proposition_incorrect, Toast.LENGTH_SHORT).show();
             }
-            //Tipo de evaluación
-            try {
-                type = Evaluacion.evaluacionTipo();
-                etType.setText(type);
-                System.out.println("TIPO: " + type);
-            } catch (Exception e) {
-                System.out.println("ERROR TIPO: " + e.getMessage());
-            }
-            //Postfijo
-            try {
-                postfix = postfijo(proposition);
-                etPostfix.setText(postfix);
-                System.out.println("POSTFIJO: " + postfix);
-            } catch (IOException e) {
-                System.out.println("ERROR POSTFIJO: " + e.getMessage());
-            }
+
         } else {
-            Toast.makeText(getApplicationContext(), "Ingresa una proposición", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.empty_input, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -223,10 +236,46 @@ public class EvaluateActivity extends AppCompatActivity {
         if (!etProposition.getText().toString().equals("")) {
             proposition = etProposition.getText().toString();
 
-            DatabaseReference ref = databaseReference.child("propositions").child(userID);
-            DatabaseReference newRef = ref.push();
-            Proposition prop = new Proposition(userID, proposition);
-            newRef.setValue(prop.getProposition());
+            final DatabaseReference ref = databaseReference.child("propositions").child(userID).child(proposition);
+            final Proposition prop = new Proposition(userID, proposition);
+
+            Validations val = new Validations(proposition);
+            boolean validate = val.validateProposition();
+            boolean balanced = val.validateParenthesis();
+
+            if (validate && balanced) {
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (!(dataSnapshot.child(prop.getProposition()).exists())) {
+                            Log.d(TAG, dataSnapshot.child(prop.getProposition()).toString());
+                            ref.setValue(prop.getProposition());  //overwrites
+//                            DatabaseReference newRef = ref.push();  //creates duplicates
+//                            newRef.setValue(prop.getProposition());
+                        } else {
+                            Toast.makeText(getApplicationContext(), R.string.proposition_duplicate, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(getApplicationContext(), R.string.proposition_duplicate, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                });
+            } else if (!validate) {
+                Toast.makeText(getApplicationContext(), R.string.proposition_invalid, Toast.LENGTH_SHORT).show();
+            } else if (!balanced) {
+                Toast.makeText(getApplicationContext(), R.string.proposition_unbalanced, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.proposition_incorrect, Toast.LENGTH_SHORT).show();
+            }
+
+
+//            DatabaseReference ref = databaseReference.child("propositions").child(userID);
+//            DatabaseReference newRef = ref.push();
+//            Proposition prop = new Proposition(userID, proposition);
+//            newRef.setValue(prop.getProposition());
         }
     }
 }

@@ -22,7 +22,9 @@ public class Validations {
         this.balanced = false;
     }
 
-    public static boolean validateProposition(String proposition) {
+    public boolean validateProposition() {
+        proposition = proposition.replace("v", "o").replace("^", "y").replace("→", "f").replace("↔", "b");
+
         String var = "[PQRSTU]";
         String op = "[y||o||f||b]";
         ArrayList<String> pattern = new ArrayList();
@@ -35,7 +37,7 @@ public class Validations {
         return false;
     }
 
-    public static boolean validateParenthesis(String proposition) {
+    public boolean validateParenthesis() {
         Stack<Character> stack = new Stack<Character>();
         for (int i = 0; i < proposition.length(); i++) {
             char c = proposition.charAt(i);
@@ -59,7 +61,6 @@ public class Validations {
                 if (stack.pop() != '{')
                     return false;
             }
-
         }
         return stack.isEmpty();
     }
@@ -68,15 +69,18 @@ public class Validations {
         ArrayList<String> propositions = new ArrayList();
         propositions.add("-P");
         propositions.add("(((-P)");
-        propositions.add("PyQ");
-        propositions.add("PoQ");
-        propositions.add("PfQ");
-        propositions.add("PbQ");
-        propositions.add("(-PoQ)yR");
-        propositions.add("(-PoQ)fR)");
+        propositions.add("P^Q");
+        propositions.add("PvQ");
+        propositions.add("P→Q");
+        propositions.add("P↔Q");
+        propositions.add("(-PvQ)^R");
+        propositions.add("(-PvQ)→R)↔S");
+        propositions.add("((-PvQ)→R)↔S");
+        propositions.add("(((-PvQ)→R)↔S)^T");
         for (int i = 0; i < propositions.size(); i++) {
-            boolean validate = validateProposition((String) propositions.get(i));
-            boolean balanced = validateParenthesis((String) propositions.get(i));
+            Validations val = new Validations(propositions.get(i));
+            boolean validate = val.validateProposition();
+            boolean balanced = val.validateParenthesis();
             if (validate && balanced) {
                 System.out.println(((String) propositions.get(i)) + "\t - TRUE");
             } else {

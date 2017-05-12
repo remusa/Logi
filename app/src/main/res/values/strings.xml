@@ -17,4 +17,9 @@
     <string name="login_succesful">Inicio de sesión exitoso</string>
     <string name="logging_out">Cerrando sesión...</string>
     <string name="about">Acerca de</string>
+    <string name="empty_input">Ingresa una proposición</string>
+    <string name="proposition_invalid">Proposición inválida</string>
+    <string name="proposition_unbalanced">Paréntesis mal balanceados</string>
+    <string name="proposition_incorrect">Proposición incorrecta</string>
+    <string name="proposition_duplicate">La proposición ya ha sido guardada</string>
 </resources>
