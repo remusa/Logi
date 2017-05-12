@@ -56,12 +56,14 @@ public class AboutActivity {
         // Now Linkify the text
         Linkify.addLinks(tvAbout, Linkify.ALL);
         //Build and show the dialog
-        new AlertDialog.Builder(callingActivity, R.style.AppTheme_Dark_Dialog)
-                .setTitle("About " + callingActivity.getString(R.string.app_name))
+        AlertDialog adDialog = new AlertDialog.Builder(callingActivity, R.style.AppTheme_Dark_Dialog)
+                .setTitle("About ")
                 .setCancelable(true)
                 .setIcon(R.mipmap.ic_launcher)
                 .setPositiveButton("OK", null)
                 .setView(about)
                 .show();    //Builder method returns allow for method chaining
+
+        adDialog.getWindow().setBackgroundDrawableResource(android.R.color.background_dark);
     }
 }

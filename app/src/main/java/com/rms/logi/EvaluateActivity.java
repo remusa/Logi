@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rms.model.Evaluacion;
 import com.rms.model.Proposition;
+import com.rms.model.Validations;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -128,6 +129,9 @@ public class EvaluateActivity extends AppCompatActivity {
     private void evaluate() {
         if (!etProposition.getText().toString().equals("")) {
             proposition = etProposition.getText().toString();
+
+            Validations validate = new Validations();
+
 
             //Tablas
             try {
