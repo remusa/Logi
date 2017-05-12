@@ -77,7 +77,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:padding="12dp"
-            android:text="Guardar en Firebase" />
+            android:text="Guardar" />
 
         <!--<ScrollView-->
         <!--android:layout_width="match_parent"-->

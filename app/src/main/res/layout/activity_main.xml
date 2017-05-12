@@ -8,30 +8,30 @@
 
     <Button
         android:id="@+id/btnNewEvaluation"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="117dp"
-        android:text="Nueva proposición" />
+        android:text="@string/btn_new_proposition" />
 
     <Button
         android:id="@+id/btnOpen"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Abrir proposición"
+        android:text="@string/btn_open_proposition"
         android:layout_below="@+id/btnNewEvaluation"
         android:layout_alignStart="@+id/btnLogout"
         android:layout_marginTop="27dp" />
 
     <Button
         android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="106dp"
         android:drawableLeft="@drawable/ic_enhanced_encryption_black_24dp"
         android:drawableTint="@color/accent"
-        android:text="Cerrar sesión"
+        android:text="@string/btn_logout"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

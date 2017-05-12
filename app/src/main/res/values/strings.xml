@@ -22,4 +22,7 @@
     <string name="proposition_unbalanced">Paréntesis mal balanceados</string>
     <string name="proposition_incorrect">Proposición incorrecta</string>
     <string name="proposition_duplicate">La proposición ya ha sido guardada</string>
+    <string name="btn_new_proposition">Nueva proposición</string>
+    <string name="btn_open_proposition">Abrir proposición</string>
+    <string name="btn_logout">Cerrar sesión</string>
 </resources>
