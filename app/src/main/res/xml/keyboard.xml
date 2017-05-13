@@ -35,7 +35,7 @@
         <Key android:codes="55004" android:keyIcon="@drawable/sym_keyboard_allright" android:keyEdgeFlags="right" />
     </Row>
     <Row>
-        <Key android:codes="45"    android:keyLabel="-" android:keyWidth="25%p" android:horizontalGap="6.25%p" android:keyEdgeFlags="left" />
-        <Key android:codes="-3"    android:keyIcon="@drawable/sym_keyboard_done" android:keyWidth="25%p" android:horizontalGap="12.50%p" />
+        <Key android:codes="45"    android:keyLabel="-" android:keyWidth="25%p" android:keyEdgeFlags="left" />
+        <Key android:codes="-3"    android:keyIcon="@drawable/sym_keyboard_done" android:keyWidth="25%p" android:horizontalGap="6.25%p" />
     </Row>
 </Keyboard>
