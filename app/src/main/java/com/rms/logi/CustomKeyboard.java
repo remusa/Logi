@@ -34,12 +34,10 @@ class CustomKeyboard {
 
         public final static int CodeDelete = -5; // Keyboard.KEYCODE_DELETE
         public final static int CodeCancel = -3; // Keyboard.KEYCODE_CANCEL
-        public final static int CodePrev = 55000;
         public final static int CodeAllLeft = 55001;
         public final static int CodeLeft = 55002;
         public final static int CodeRight = 55003;
         public final static int CodeAllRight = 55004;
-        public final static int CodeNext = 55005;
         public final static int CodeClear = 55006;
 
         @Override
@@ -70,12 +68,6 @@ class CustomKeyboard {
                 edittext.setSelection(0);
             } else if (primaryCode == CodeAllRight) {
                 edittext.setSelection(edittext.length());
-            } else if (primaryCode == CodePrev) {
-                View focusNew = edittext.focusSearch(View.FOCUS_BACKWARD);
-                if (focusNew != null) focusNew.requestFocus();
-            } else if (primaryCode == CodeNext) {
-                View focusNew = edittext.focusSearch(View.FOCUS_FORWARD);
-                if (focusNew != null) focusNew.requestFocus();
             } else { // insert character
                 editable.insert(start, Character.toString((char) primaryCode));
             }

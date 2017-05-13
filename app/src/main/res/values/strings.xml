@@ -16,7 +16,7 @@
     <string name="login_authentication">Autenticando...</string>
     <string name="login_succesful">Inicio de sesión exitoso</string>
     <string name="logging_out">Cerrando sesión...</string>
-    <string name="about">Acerca de</string>
+    <string name="about">Logi es una aplicación de lógica proposicional diseñada y desarrollada por René Muñoz Sánchez y Core Quintero Escobar para la materia de Desarrollo Móvil en el Instituto Tecnológico de Toluca</string>
     <string name="empty_input">Ingresa una proposición</string>
     <string name="proposition_invalid">Proposición inválida</string>
     <string name="proposition_unbalanced">Paréntesis mal balanceados</string>
@@ -25,4 +25,5 @@
     <string name="btn_new_proposition">Nueva proposición</string>
     <string name="btn_open_proposition">Abrir proposición</string>
     <string name="btn_logout">Cerrar sesión</string>
+    <string name="exit">Saliendo de la aplicación</string>
 </resources>

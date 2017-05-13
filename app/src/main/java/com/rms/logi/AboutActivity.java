@@ -57,7 +57,7 @@ public class AboutActivity {
         Linkify.addLinks(tvAbout, Linkify.ALL);
         //Build and show the dialog
         AlertDialog adDialog = new AlertDialog.Builder(callingActivity, R.style.AppTheme_Dark_Dialog)
-                .setTitle("About ")
+                .setTitle("Acerca de")
                 .setCancelable(true)
                 .setIcon(R.mipmap.ic_launcher)
                 .setPositiveButton("OK", null)

@@ -113,17 +113,44 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this, R.style.AppTheme_Dark_Dialog);
+
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
         if (id == R.id.about) {
             AboutActivity.Show(this);
             return true;
+        }
+        if (id == R.id.logout) {
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(getString(R.string.logging_out));
+            progressDialog.show();
+
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            FirebaseAuth.getInstance().signOut();
+                            LoginManager.getInstance().logOut();
+                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                            progressDialog.dismiss();
+                        }
+                    }, 1000);
+            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        }
+        if (id == R.id.exit) {
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(getString(R.string.exit));
+            progressDialog.show();
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            finishAffinity();
+                            progressDialog.dismiss();
+                        }
+                    }, 1000);
         }
         return super.onOptionsItemSelected(item);
     }
