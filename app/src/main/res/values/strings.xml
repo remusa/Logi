@@ -26,4 +26,5 @@
     <string name="btn_open_proposition">Abrir proposición</string>
     <string name="btn_logout">Cerrar sesión</string>
     <string name="exit">Saliendo de la aplicación</string>
+    <string name="error_variable">La variable no puede ser utilizada</string>
 </resources>

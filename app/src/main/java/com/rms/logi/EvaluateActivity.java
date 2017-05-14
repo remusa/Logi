@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -154,10 +153,11 @@ public class EvaluateActivity extends Activity {
             proposition = etProposition.getText().toString();
 
             Validations val = new Validations(proposition);
+            boolean variable = val.validateVariables();
             boolean validate = val.validateProposition();
             boolean balanced = val.validateParenthesis();
 
-            if (validate && balanced) {
+            if (variable && validate && balanced) {
                 //Tablas
                 try {
                     mostrarTablasVariables(proposition);
@@ -239,6 +239,8 @@ public class EvaluateActivity extends Activity {
                 } catch (IOException e) {
                     System.out.println("ERROR POSTFIJO: " + e.getMessage());
                 }
+            } else if (!variable) {
+                Toast.makeText(getApplicationContext(), R.string.error_variable, Toast.LENGTH_SHORT).show();
             } else if (!validate) {
                 Toast.makeText(getApplicationContext(), R.string.proposition_invalid, Toast.LENGTH_SHORT).show();
             } else if (!balanced) {

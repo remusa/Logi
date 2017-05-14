@@ -3,6 +3,8 @@ package com.rms.model;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import static com.rms.model.Evaluacion.contarVariables;
+
 /**
  * Created by rms on 11/05/2017.
  */
@@ -22,9 +24,51 @@ public class Validations {
         this.balanced = false;
     }
 
+    public boolean validateVariables() {
+        int noVar = contarVariables(proposition);
+        boolean valid = false;
+        switch (noVar) {
+            case 1:
+                if (proposition.contains("P")) {
+                    valid = true;
+                }
+                break;
+            case 2:
+                if (proposition.contains("P") && proposition.contains("Q")) {
+                    valid = true;
+                }
+                break;
+            case 3:
+                if (proposition.contains("P") && proposition.contains("Q") && proposition.contains("R")) {
+                    valid = true;
+                }
+                break;
+            case 4:
+                if (proposition.contains("P") && proposition.contains("Q") && proposition.contains("R")
+                        && proposition.contains("S")) {
+                    valid = true;
+                }
+                break;
+            case 5:
+                if (proposition.contains("P") && proposition.contains("Q") && proposition.contains("R")
+                        && proposition.contains("S") && proposition.contains("T")) {
+                    valid = true;
+                }
+                break;
+            case 6:
+                if (proposition.contains("P") && proposition.contains("Q") && proposition.contains("R")
+                        && proposition.contains("S") && proposition.contains("T") && proposition.contains("U")) {
+                    valid = true;
+                }
+                break;
+            default:
+                return false;
+        }
+        return valid;
+    }
+
     public boolean validateProposition() {
         proposition = proposition.replace("v", "o").replace("^", "y").replace("→", "f").replace("↔", "b");
-
         String var = "[PQRSTU]";
         String op = "[y||o||f||b]";
         ArrayList<String> pattern = new ArrayList();
