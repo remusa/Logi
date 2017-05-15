@@ -262,6 +262,7 @@ public class EvaluateActivity extends Activity {
             final Proposition prop = new Proposition(userID, proposition);
 
             Validations val = new Validations(proposition);
+            boolean variable = val.validateVariables();
             boolean validate = val.validateProposition();
             boolean balanced = val.validateParenthesis();
 
