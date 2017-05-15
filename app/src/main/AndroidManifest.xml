@@ -40,10 +40,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark" />
         <activity
-            android:name=".ResetPasswordActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Dark" />
-        <activity
             android:name=".EvaluateActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark" />
