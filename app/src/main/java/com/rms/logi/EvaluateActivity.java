@@ -266,7 +266,7 @@ public class EvaluateActivity extends Activity {
             boolean validate = val.validateProposition();
             boolean balanced = val.validateParenthesis();
 
-            if (validate && balanced) {
+            if (variable && validate && balanced) {
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -286,6 +286,8 @@ public class EvaluateActivity extends Activity {
                         return;
                     }
                 });
+            } else if (!variable) {
+                Toast.makeText(getApplicationContext(), R.string.error_variable, Toast.LENGTH_SHORT).show();
             } else if (!validate) {
                 Toast.makeText(getApplicationContext(), R.string.proposition_invalid, Toast.LENGTH_SHORT).show();
             } else if (!balanced) {
@@ -294,10 +296,13 @@ public class EvaluateActivity extends Activity {
                 Toast.makeText(getApplicationContext(), R.string.proposition_incorrect, Toast.LENGTH_SHORT).show();
             }
 
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.empty_input, Toast.LENGTH_SHORT).show();
+        }
+
 //            DatabaseReference ref = databaseReference.child("propositions").child(userID);
 //            DatabaseReference newRef = ref.push();
 //            Proposition prop = new Proposition(userID, proposition);
 //            newRef.setValue(prop.getProposition());
-        }
     }
 }
