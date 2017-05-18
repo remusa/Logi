@@ -82,8 +82,20 @@ public class EvaluateActivity extends Activity {
 
         //Firebase
         mAuth = FirebaseAuth.getInstance();
+
         user = FirebaseAuth.getInstance().getCurrentUser();
-        userID = user.getUid();
+        if (user == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        } else {
+            Log.d(TAG, "user " + user.getUid());
+        }
+        try {
+            userID = user.getUid();
+        } catch (Exception e) {
+            Log.d(TAG, e.getMessage());
+        }
+
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         Intent intent = getIntent();

@@ -33,9 +33,20 @@ public class EvaluationsActivity extends AppCompatActivity {
 
         lvList = (ListView) findViewById(R.id.lvList);
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        userID = user.getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        } else {
+            Log.d(TAG, "user " + user.getUid());
+        }
+        try {
+            userID = user.getUid();
+        } catch (Exception e) {
+            Log.d(TAG, e.getMessage());
+        }
 
         retrievePropositions();
     }

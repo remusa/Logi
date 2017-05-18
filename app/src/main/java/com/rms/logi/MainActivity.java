@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.btnLogout)
     Button btnLogout;
 
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);

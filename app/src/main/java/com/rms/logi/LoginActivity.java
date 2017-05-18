@@ -46,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.tvSignupLink)
     TextView tvSignup;
 
+    private FirebaseUser user;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -56,15 +57,28 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         ButterKnife.bind(this);
-
         // Facebook
         FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
-
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
+        AppEventsLogger.activateApp(this);
+
+        //Get Firebase auth instance
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
 
         LoginButton loginButton = (LoginButton) findViewById(R.id.btnFacebook);
         loginButton.setReadPermissions("email", "public_profile");
@@ -86,25 +100,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //Get Firebase auth instance
-        mAuth = FirebaseAuth.getInstance();
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 login();
@@ -112,7 +108,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         tvSignup.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 // Start the Signup activity
@@ -131,6 +126,15 @@ public class LoginActivity extends AppCompatActivity {
         // Pass the activity result back to the Facebook SDK
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == REQUEST_SIGNUP) {
+//            if (resultCode == RESULT_OK) {
+//                this.finish();
+//            }
+//        }
+//    }
 
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
@@ -173,9 +177,21 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public void onLoginSuccess() {
+        btnLogin.setEnabled(true);
+        Toast.makeText(LoginActivity.this, R.string.login_succesful, Toast.LENGTH_SHORT).show();
+        this.finish();
+    }
+
+    public void onLoginFailed() {
+        Toast.makeText(LoginActivity.this, R.string.login_failed, Toast.LENGTH_SHORT).show();
+        btnLogin.setEnabled(true);
+    }
+
     @Override
     public void onStart() {
         super.onStart();
+        user = FirebaseAuth.getInstance().getCurrentUser();
         mAuth.addAuthStateListener(mAuthListener);
     }
 
@@ -187,18 +203,21 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        // Disable going back to the MainActivity
+        moveTaskToBack(true);
+    }
+
     public void login() {
         Log.d(TAG, "Inicio de sesión");
-
         if (!validate()) {
             onLoginFailed();
             return;
         }
-
         btnLogin.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Dark_Dialog);
 
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.login_authentication));
@@ -212,7 +231,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -235,40 +253,8 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                     }, 1000);
                         }
-
                     }
                 });
-    }
-
-//    @Override
-//    public void onBackPressed() {
-//        // Disable going back to the MainActivity
-//        moveTaskToBack(true);
-//    }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == REQUEST_SIGNUP) {
-//            if (resultCode == RESULT_OK) {
-//
-//                // TO DO: Implement successful signup logic here
-//                // By default we just finish the Activity and log them in automatically
-//                this.finish();
-//            }
-//        }
-//    }
-
-    public void onLoginSuccess() {
-        btnLogin.setEnabled(true);
-        Toast.makeText(LoginActivity.this, R.string.login_succesful, Toast.LENGTH_SHORT).show();
-
-        finish();
-    }
-
-    public void onLoginFailed() {
-        Toast.makeText(LoginActivity.this, R.string.login_failed, Toast.LENGTH_SHORT).show();
-
-        btnLogin.setEnabled(true);
     }
 
     public boolean validate() {
